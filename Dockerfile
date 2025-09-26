@@ -10,7 +10,8 @@ WORKDIR /app
 
 FROM base AS deps
 COPY package.json pnpm-lock.yaml .npmrc* ./
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile \
+    && pnpm add -D typescript@5.9.2
 
 FROM base AS builder
 ENV NODE_ENV=production
@@ -26,6 +27,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable \
  && apt-get update \
  && apt-get install -y --no-install-recommends openssl \
+ && npm install -g typescript@5.9.2 \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 

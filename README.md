@@ -84,8 +84,45 @@
    ```bash
    pnpm start
    ```
-   
+
    🎉 **部署完成！** 您的短網址服務現已上線
+
+### 🐳 使用 Docker 部署
+
+依照以下步驟透過 Docker 執行專案：
+
+1. **準備環境變數**
+
+   複製 Docker 環境範本後依需求調整：
+   ```bash
+   cp .env.docker.example .env.docker
+   ```
+
+2. **建立 Docker 映像檔**
+
+   Dockerfile 會在建置流程中執行與自行部署相同的 `pnpm build` 及 `pnpm start` 指令：
+   ```bash
+   docker build -t short-link-tracker .
+   ```
+
+3. **透過 docker-compose 執行**
+
+   專案內附的 `docker-compose.yml` 會在獨立的 bridge 網路中啟動應用程式、PostgreSQL 與 Redis：
+   ```bash
+   docker compose up -d
+   ```
+
+   查看應用程式日誌：
+   ```bash
+   docker compose logs -f app
+   ```
+
+   停止整個服務：
+   ```bash
+   docker compose down
+   ```
+
+全部服務啟動後即可在 http://localhost:3000 造訪應用程式。
 
 #### 🌍 地理位置功能設定（可選）
 
